@@ -10,6 +10,8 @@
   `include "uvm_macros.svh"
   `include "comp_strg_pkg.sv"
 
+  `timescale 1ns/1ps
+
   module tb_top;
     import uvm_pkg::*;
     import comp_strg_pkg::*;

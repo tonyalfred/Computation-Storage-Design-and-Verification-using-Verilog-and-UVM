@@ -51,10 +51,19 @@
       endtask
 
       task reset(comp_strg_reset_item item);
+    
+        // SYNCHRONOUS RESET //
+        /*
         m_vif.rst <= 1'b1;
-        @ (posedge m_vif.clk);
+        @ (posedge m_vif.CLK);
         m_vif.rst <= 1'b0;
-        repeat (item.cycles) @ (posedge m_vif.clk);
+        repeat (item.cycles) @ (posedge m_vif.CLK);
+        m_vif.rst <= 1'b1;
+        */
+
+        // ASYNCHRONOUS RESET //
+        m_vif.rst <= 1'b0;
+        #(item.reset_time_ps * 1ps);
         m_vif.rst <= 1'b1;
       endtask
     endclass 
