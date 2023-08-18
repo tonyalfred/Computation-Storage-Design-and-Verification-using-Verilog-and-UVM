@@ -23,6 +23,7 @@
       rand logic [`STRG_ADDRESS_WIDTH-1:0] m_addC;
 
       constraint c_no_write_after_read {if (m_cmd_s == READ) m_cmd != WRITE;}
+      constraint c_different_addA_addB_for_ADD_SUB_cmd {if ((m_cmd == ADD) || (m_cmd == SUB)) unique {m_addA, m_addB};}
 
       function void post_randomize ();
         m_cmd_s = m_cmd;

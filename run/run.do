@@ -1,5 +1,6 @@
 vlog -cover bcest rtl/comp_strg.v
-vsim -voptargs=+acc -msgmode both -coverage work.comp_strg_tb -logfile transcript.log
+vopt +acc=a work.comp_strg_tb -o dbgver
+vsim -voptargs=+acc -assertdebug -msgmode both -coverage work.comp_strg_tb -logfile transcript.log
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0

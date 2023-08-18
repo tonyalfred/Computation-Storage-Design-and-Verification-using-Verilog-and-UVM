@@ -35,8 +35,30 @@
         default input #1step output #0;
         inout DQ;
         input valid_out, DQ_mon;
-        inout en, cmd, addA, addB, addC, DQ_reg;
+        output en, cmd, addA, addB, addC, DQ_reg;
       endclocking
+
+      // Assertions
+      // Active Low Asynchronous Reset
+      property p_1;
+        @(posedge clk)
+          (!rst -> (valid_out == 0 && DQ === 'bz));
+      endproperty 
+      a_1: assert property (p_1);
+
+      // at ADD, SUB operations, addA, addB can't be the same.
+      property p_2;
+        @(posedge clk) disable iff (!rst)
+          (((cmd == 2) || (cmd == 3)) -> (!(addA == addB)));
+      endproperty 
+      a_2: assert property (p_2);
+
+      // if en and cmd = READ, then, output is expected to be valid in 1 clock cycle
+      property p_3;
+        @(posedge clk) disable iff (!rst)
+          (en && (cmd == 0)) |=> valid_out; 
+      endproperty 
+      a_3: assert property (p_3);
     endinterface 
   `endif
 

@@ -1,5 +1,6 @@
-vlog -cover bcest rtl/comp_strg.v 
-vsim +UVM_VERBOSITY=UVM_HIGH -voptargs=+acc -msgmode both -coverage work.tb_top -logfile transcript.log
+vlog -cover bcest rtl/comp_strg.v
+vopt +acc=a work.comp_strg_tb -o dbgver
+vsim +UVM_VERBOSITY=UVM_HIGH -assertdebug -voptargs=+acc -msgmode both -coverage work.tb_top -logfile transcript.log
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0
